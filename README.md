@@ -7,7 +7,7 @@ Internal app for managing the supply chain knowledge base.
 - Hook up to the KB API and hit the search endpoint.
 - Finish prototyping the entity editing interface.
 
-## Development setup
+## Development
 
 1. Install VS Code's "Visual Studio Code Remote - Containers" extension.
 2. Press ctrl-shift-p OR press the >< button in the bottom-left of the editor and execute "Reopen in Container" to launch the dev environment.
