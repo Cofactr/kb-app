@@ -1,0 +1,43 @@
+@import "./_fonts.css";
+
+@tailwind base;
+@tailwind components;
+
+:root {
+    --nav-height: 3.8rem;
+}
+
+@layer base {
+    body {
+        @apply font-sans bg-gray-light text-gray-300;
+    }
+    h1 {
+        @apply font-light text-4xl mb-4 text-gray-dark;
+    }
+    h2 {
+        @apply font-light text-3xl mb-4 text-gray-dark;
+    }
+    h3 {
+        @apply font-semibold text-lg my-2;
+    }
+    ul {
+        @apply list-disc list-inside;
+    }
+    ol {
+        @apply list-decimal list-inside;
+    }
+}
+
+@layer components {
+    .bracket-left {
+        @apply text-blue-light opacity-0 transition-all duration-300 ease-in-out transform translate-x-4 group-hover:opacity-40 group-hover:transform-none;
+    }
+    .bracket-active {
+        @apply text-blue-light;
+    }
+    .bracket-right {
+        @apply text-blue-light opacity-0 transition-all duration-300 ease-in-out transform -translate-x-4 group-hover:opacity-40 group-hover:transform-none;
+    }
+}
+
+@tailwind utilities;
