@@ -74,7 +74,7 @@ type OID = {
     $date: string;
 };
 
-type Item = {
+type Entity = {
     _id: OID;
     modified: Date;
     labels: Labels;
@@ -105,6 +105,6 @@ export type {
     References,
     Claim,
     Claims,
-    Item,
+    Entity,
     OID,
 };

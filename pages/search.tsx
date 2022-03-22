@@ -1,42 +1,180 @@
-import Search from "components/dom/Search";
+// @ts-nocheck
+import { NavigateBefore, NavigateNext } from "@mui/icons-material";
+import {
+    Box,
+    ButtonGroup,
+    Card,
+    CardActionArea,
+    CardContent,
+    Container,
+    IconButton,
+    LinearProgress,
+    Stack,
+    Typography,
+} from "@mui/material";
+import Link from "components/Link";
+import NoResultsMessage from "components/NoResultsMesssage";
+import SearchBar from "components/SearchBar";
+import { executeSearch } from "lib/search";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function Page() {
     const router = useRouter();
+    const [data, setData] = useState();
+    const [nextPagePath, setNextPagePath] = useState<string>();
+    const [previousPagePath, setPreviousPagePath] = useState<string>();
+    const [isLoading, setIsLoading] = useState(true);
+
     const {
         query: { q },
     } = router;
-    const [searchTerm, setSearchTerm] = useState(router.query.q);
+
+    const queryStringInPath = typeof q === "string" ? q : "";
+
+    const [query, setQuery] = useState(queryStringInPath);
 
     useEffect(() => {
-        setSearchTerm(q);
-    }, [q]);
+        setQuery(queryStringInPath);
+    }, [queryStringInPath]);
 
-    const searchInputRef = useRef(null);
+    const search = useCallback(
+        (event) => executeSearch(router, query, event),
+        [router, query],
+    );
 
-    const executeSearch = (e) => {
-        e.preventDefault();
-        const newTerm = searchInputRef.current.value;
+    useEffect(() => {
+        async function getData() {
+            if (!queryStringInPath) {
+                return;
+            }
+            setIsLoading(true);
 
-        if (newTerm) {
-            router.push(`/search?q=${newTerm}`);
+            setData(undefined);
+            try {
+                const res = await fetch(
+                    `http://localhost:5000/products/search?q=${queryStringInPath}}`,
+                );
+                const resJson = await res.json();
+                const {
+                    data,
+                    paging: { next, previous },
+                } = resJson;
+
+                setData(data);
+                setNextPagePath(next && `/browse${next}`);
+                setPreviousPagePath(previous && `/browse${previous}`);
+            } catch (error) {
+                console.error("Handle request error.");
+            }
+
+            setIsLoading(false);
         }
-    };
+
+        getData();
+    }, [queryStringInPath]);
 
     return (
-        <div>
-            <div className="h-full w-full flex justify-center">
-                <div className="mt-8 w-[590px] mx-2">
-                    <Search
-                        searchInputRef={searchInputRef}
-                        term={searchTerm}
-                        setTerm={setSearchTerm}
-                        executeSearch={executeSearch}
-                    />
-                </div>
-            </div>
-        </div>
+        <>
+            <Box
+                sx={{
+                    bgcolor: "background",
+                    pt: 4,
+                    pb: 6,
+                }}
+            >
+                <Container maxWidth="sm">
+                    <Stack spacing={4}>
+                        <SearchBar
+                            query={query}
+                            setQuery={setQuery}
+                            executeSearch={search}
+                        />
+                    </Stack>
+                </Container>
+                <Container maxWidth="md">
+                    <Stack spacing={1} sx={{ mt: 2 }}>
+                        {isLoading && (
+                            <Box sx={{ width: "100%" }}>
+                                <LinearProgress />
+                            </Box>
+                        )}
+                        {!isLoading && !data && <NoResultsMessage />}
+                        {data &&
+                            data.map((p) => {
+                                const { _id, descriptions } = p;
+                                const id = _id["$oid"];
+
+                                return (
+                                    <Card key={id}>
+                                        <CardActionArea
+                                            component={Link}
+                                            noLinkStyle
+                                            href={`/products/${id}`}
+                                        >
+                                            <CardContent>
+                                                <Stack spacing={0.5}>
+                                                    <Stack
+                                                        direction="row"
+                                                        justifyContent="flex-start"
+                                                        alignItems="center"
+                                                        spacing={1}
+                                                    >
+                                                        <Typography
+                                                            gutterBottom
+                                                            variant="h6"
+                                                            component="div"
+                                                        >
+                                                            {id}
+                                                        </Typography>
+                                                    </Stack>
+                                                    <Typography
+                                                        variant="body2"
+                                                        color="text.secondary"
+                                                    >
+                                                        {
+                                                            descriptions?.en
+                                                                ?.value
+                                                        }
+                                                    </Typography>
+                                                </Stack>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                );
+                            })}
+                        {data && (
+                            <Box display="flex" justifyContent="center">
+                                <ButtonGroup
+                                    variant="contained"
+                                    size="small"
+                                    aria-label="pagination controls"
+                                >
+                                    <IconButton
+                                        color="primary"
+                                        aria-label="navigate to previous page"
+                                        component={Link}
+                                        href={previousPagePath || "/"}
+                                        disabled={!previousPagePath}
+                                    >
+                                        <NavigateBefore />
+                                    </IconButton>
+                                    <IconButton
+                                        color="primary"
+                                        aria-label="navigate to next page"
+                                        component={Link}
+                                        href={nextPagePath || "/"}
+                                        disabled={!nextPagePath}
+                                    >
+                                        <NavigateNext />
+                                    </IconButton>
+                                </ButtonGroup>
+                            </Box>
+                        )}
+                    </Stack>
+                </Container>
+            </Box>
+        </>
     );
 }
 

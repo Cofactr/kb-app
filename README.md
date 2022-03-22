@@ -4,7 +4,7 @@ Internal app for managing the supply chain knowledge base.
 
 ## Upcoming work
 
-- Hook up to the KB API and hit the search endpoint.
+- Hook up to the KB API.
 - Finish prototyping the entity editing interface.
 
 ## Development
