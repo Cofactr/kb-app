@@ -25,7 +25,7 @@ const features = [
     {
         name: "Q&A",
         description: "Answer questions about the data",
-        href: "/q+a",
+        href: "/answer",
         icon: QuestionAnswer,
     },
     {
