@@ -21,13 +21,13 @@ const nextConfig = {
     },
 };
 
-// Manage i18n.
-if (process.env.EXPORT !== "true") {
-    nextConfig.i18n = {
-        locales: ["en-US"],
-        defaultLocale: "en-US",
-    };
-}
+// i18n is unused to get a fully static build.
+// if (process.env.EXPORT !== "true") {
+//     nextConfig.i18n = {
+//         locales: ["en-US"],
+//         defaultLocale: "en-US",
+//     };
+// }
 
 module.exports = plugins(
     [
