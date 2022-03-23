@@ -30,7 +30,7 @@ function KbApp(props: KbAppProps) {
         <CacheProvider value={emotionCache}>
             <Head>
                 <title>{title || "Cofactr"}</title>
-                <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+                <link rel="shortcut icon" href="/favicon.ico" />
                 <meta
                     name="viewport"
                     content="initial-scale=1, width=device-width"
