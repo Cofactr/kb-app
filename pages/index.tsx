@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { KeyboardEvent, useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
 import AppGrid from "components/AppGrid";
 import SearchBar from "components/SearchBar";
