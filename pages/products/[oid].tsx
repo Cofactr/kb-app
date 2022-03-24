@@ -4,8 +4,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useKbStore from "store/useKbStore";
 import ProductTreeView from "components/kb/ProductTreeView";
+import useAppStore from "store/useStore";
 
 function Page() {
+    const { api } = useAppStore();
     const { addEntity, kb, selectEntity } = useKbStore();
 
     const {
@@ -23,9 +25,7 @@ function Page() {
 
             setData({});
             try {
-                const res = await fetch(
-                    `http://localhost:5000/products/${oid}`,
-                );
+                const res = await fetch(`${api}/products/${oid}`);
                 const resJson = await res.json();
                 const { data } = resJson;
 
@@ -38,7 +38,7 @@ function Page() {
         }
 
         getData();
-    }, [oid]);
+    }, [api, oid]);
 
     useEffect(() => {
         if (!data) {

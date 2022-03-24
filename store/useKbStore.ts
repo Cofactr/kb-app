@@ -3,7 +3,7 @@ import { Entity, OID } from "types/types";
 import create from "zustand";
 import { v4 as uuidv4 } from "uuid";
 
-interface EntityState {
+interface KbState {
     kb: Map<OID, Entity>;
     addEntity: (entity: Entity) => void;
     deleteEntity: (id: OID) => void;
@@ -18,23 +18,23 @@ interface EntityState {
     removeReference: (entityId?: OID, hash: string) => void;
 }
 
-const useEntityStore = create<EntityState>((set) => ({
+const useKbStore = create<KbState>((set) => ({
     kb: new Map(),
     addEntity: (entity: Entity): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             state.kb.set(entity._id, entity);
         }),
     deleteEntity: (id: OID): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             state.kb.delete(id);
         }),
     // Clear stored entities.
     reset: (): void => set(() => ({ kb: new Map<OID, Entity>() })),
     selectedEntityId: undefined,
     selectEntity: (id: OID): void =>
-        set((state: EntityState) => ({ selectedEntityId: id })),
+        set((state: KbState) => ({ selectedEntityId: id })),
     addStatement: (id?: OID): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             if (!id) {
                 return {};
             }
@@ -49,13 +49,13 @@ const useEntityStore = create<EntityState>((set) => ({
             claims[`temp_${uuidv4()}`] = [];
         }),
     removeStatement: (entityId: OID, statementId: string): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             const { claims } = state.kb.get(entityId) || {};
 
             delete claims[statementId];
         }),
     addClaim: (entityId?: OID, propId: string): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             if (!entityId) {
                 return {};
             }
@@ -65,7 +65,7 @@ const useEntityStore = create<EntityState>((set) => ({
             claims[propId].push({ id: uuidv4() });
         }),
     removeClaim: (entityId?: OID, claimId: string): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             if (!entityId) {
                 return {};
             }
@@ -81,7 +81,7 @@ const useEntityStore = create<EntityState>((set) => ({
             });
         }),
     addReference: (entityId?: OID, claimId: string): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             if (!entityId) {
                 return {};
             }
@@ -97,7 +97,7 @@ const useEntityStore = create<EntityState>((set) => ({
             });
         }),
     removeReference: (entityId?: OID, hash: string): void =>
-        set((state: EntityState) => {
+        set((state: KbState) => {
             console.log("hello", hash);
             if (!entityId) {
                 return {};
@@ -119,5 +119,5 @@ const useEntityStore = create<EntityState>((set) => ({
         }),
 }));
 
-export type { EntityState };
-export default useEntityStore;
+export type { KbState };
+export default useKbStore;

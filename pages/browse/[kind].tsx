@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Link from "components/Link";
 import { NavigateBefore, NavigateNext } from "@mui/icons-material";
+import useAppStore from "store/useAppStore";
 
 const tabs = [
     { label: "Products", slug: "products" },
@@ -24,6 +25,7 @@ const tabs = [
 ];
 
 function Page() {
+    const { api } = useAppStore();
     const {
         asPath,
         query: { kind: curTabSlug },
@@ -47,7 +49,7 @@ function Page() {
             setData(undefined);
             try {
                 const res = await fetch(
-                    `http://localhost:5000/${asPath.replace("/browse/", "")}`,
+                    `${api}/${asPath.replace("/browse/", "")}`,
                 );
                 const resJson = await res.json();
                 const {
@@ -66,7 +68,7 @@ function Page() {
         }
 
         getData();
-    }, [asPath, curTabSlug]);
+    }, [api, asPath, curTabSlug]);
 
     return (
         <Box sx={{ mb: 4 }}>
