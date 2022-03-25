@@ -1,9 +1,7 @@
 import { Box, Container, Stack } from "@mui/material";
-import EntityStatsTable, { EntityCounts } from "components/kb/EntityStatsTable";
-import EventStatsTable, { EventCounts } from "components/kb/EventStatsTables";
-import IntangibleStatsTable, {
-    IntangibleCounts,
-} from "components/kb/IntangiblesStatsTables";
+import EntityStatsTable from "components/kb/EntityStatsTable";
+import EventStatsTable from "components/kb/EventStatsTables";
+import IntangibleStatsTable from "components/kb/IntangiblesStatsTables";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
