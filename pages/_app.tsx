@@ -35,7 +35,7 @@ function KbApp(props: KbAppProps) {
                     name="viewport"
                     content="initial-scale=1, width=device-width"
                 />
-                <meta property="og:title" content="eng kb" key="title" />
+                <meta property="og:title" content="cofactr kb" key="title" />
             </Head>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
