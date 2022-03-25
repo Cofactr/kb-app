@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useKbStore from "store/useKbStore";
 import ProductTreeView from "components/kb/ProductTreeView";
-import useAppStore from "store/useStore";
+import useAppStore from "store/useAppStore";
 
 function Page() {
     const { api } = useAppStore();
