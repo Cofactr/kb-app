@@ -6,11 +6,13 @@ interface AppState {
     setApi: (api: string) => void;
 }
 
+const PROD_API_URL = "https://graph.cofactr.com"
+
 const useAppStore = create<AppState>((set) => ({
-    api: "https://kb-api-37536907ae76e987.onporter.run",
+    api: PROD_API_URL,
     apiOptions: new Map([
         ["http://localhost:8000", "Dev"],
-        ["https://kb-api-37536907ae76e987.onporter.run", "Prod"],
+        [PROD_API_URL, "Prod"],
     ]),
     setApi: (api) => set(() => ({ api })),
 }));
