@@ -98,7 +98,6 @@ const useKbStore = create<KbState>((set) => ({
         }),
     removeReference: (entityId?: OID, hash: string): void =>
         set((state: KbState) => {
-            console.log("hello", hash);
             if (!entityId) {
                 return {};
             }
@@ -114,8 +113,6 @@ const useKbStore = create<KbState>((set) => ({
                     }
                 });
             });
-
-            console.log(claims);
         }),
 }));
 

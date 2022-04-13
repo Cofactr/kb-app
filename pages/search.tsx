@@ -25,8 +25,6 @@ function Page() {
     const { api } = useAppStore();
     const router = useRouter();
     const [data, setData] = useState();
-    const [nextPagePath, setNextPagePath] = useState<string>();
-    const [previousPagePath, setPreviousPagePath] = useState<string>();
     const [isLoading, setIsLoading] = useState(true);
 
     const {
@@ -65,8 +63,6 @@ function Page() {
                 } = resJson;
 
                 setData(data);
-                setNextPagePath(next && `/browse${next}`);
-                setPreviousPagePath(previous && `/browse${previous}`);
             } catch (error) {
                 console.error("Handle request error.");
             }
@@ -105,7 +101,6 @@ function Page() {
                         {!isLoading && !data && <NoResultsMessage />}
                         {data &&
                             data.map((p) => {
-                                console.log(p)
                                 const { id, statements: { description, image } } = p;
 
                                 const img = (image || [])[0]?.mainsnak?.datavalue?.value
@@ -155,34 +150,6 @@ function Page() {
                                     </Card>
                                 );
                             })}
-                        {data && (
-                            <Box display="flex" justifyContent="center">
-                                <ButtonGroup
-                                    variant="contained"
-                                    size="small"
-                                    aria-label="pagination controls"
-                                >
-                                    <IconButton
-                                        color="primary"
-                                        aria-label="navigate to previous page"
-                                        component={Link}
-                                        href={previousPagePath || "/"}
-                                        disabled={!previousPagePath}
-                                    >
-                                        <NavigateBefore />
-                                    </IconButton>
-                                    <IconButton
-                                        color="primary"
-                                        aria-label="navigate to next page"
-                                        component={Link}
-                                        href={nextPagePath || "/"}
-                                        disabled={!nextPagePath}
-                                    >
-                                        <NavigateNext />
-                                    </IconButton>
-                                </ButtonGroup>
-                            </Box>
-                        )}
                     </Stack>
                 </Container>
             </Box>

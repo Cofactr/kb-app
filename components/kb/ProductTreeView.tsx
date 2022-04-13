@@ -11,8 +11,6 @@ import StatementsTreeItem from "./StatementsTreeItem";
 function ProductTreeView({
     data: {
         id,
-        descriptions,
-        modified: { $date: modified },
         statements,
     },
 }) {
@@ -30,13 +28,12 @@ function ProductTreeView({
                 labelIcon={Fingerprint}
                 labelInfo={id}
             />
-            <StyledTreeItem
+            {/* <StyledTreeItem
                 nodeId="modified"
                 label="modified"
                 labelIcon={AccessTime}
                 labelInfo={modified}
-            />
-            <DescriptionsTreeItem data={descriptions} />
+            /> */}
             <StatementsTreeItem data={statements} />
         </TreeView>
     );
