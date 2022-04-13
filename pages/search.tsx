@@ -117,36 +117,39 @@ function Page() {
                                             component={Link}
                                             noLinkStyle
                                             href={`/products/${id}`}
-                                            sx={{ display: "flex", flexDirection: "column" }}
                                         >
-                                            <CardMedia component="img" sx={{ width: 151 }} image={img} />
-                                            <Box>
-                                                <CardContent>
-                                                    <Stack spacing={0.5}>
-                                                        <Stack
-                                                            direction="row"
-                                                            justifyContent="flex-start"
-                                                            alignItems="center"
-                                                            spacing={1}
-                                                        >
-                                                            <Typography
-                                                                gutterBottom
-                                                                variant="h6"
-                                                                component="div"
+                                            <Box sx={{ display: "flex" }}>
+                                                <Box sx={{ display: "flex" }} >
+                                                    <CardMedia component="img" sx={{ width: 150, maxHeight: 150 }} image={img} />
+                                                </Box>
+                                                <Box>
+                                                    <CardContent>
+                                                        <Stack spacing={0.5}>
+                                                            <Stack
+                                                                direction="row"
+                                                                justifyContent="flex-start"
+                                                                alignItems="center"
+                                                                spacing={1}
                                                             >
-                                                                {id}
+                                                                <Typography
+                                                                    gutterBottom
+                                                                    variant="h6"
+                                                                    component="div"
+                                                                >
+                                                                    {id}
+                                                                </Typography>
+                                                            </Stack>
+                                                            <Typography
+                                                                variant="body2"
+                                                                color="text.secondary"
+                                                            >
+                                                                {
+                                                                    desc
+                                                                }
                                                             </Typography>
                                                         </Stack>
-                                                        <Typography
-                                                            variant="body2"
-                                                            color="text.secondary"
-                                                        >
-                                                            {
-                                                                desc
-                                                            }
-                                                        </Typography>
-                                                    </Stack>
-                                                </CardContent>
+                                                    </CardContent>
+                                                </Box>
                                             </Box>
                                         </CardActionArea>
                                     </Card>
