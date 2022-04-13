@@ -96,8 +96,7 @@ function Page() {
                     )}
                     {data &&
                         data.map((p) => {
-                            const { _id, descriptions } = p;
-                            const id = _id["$oid"];
+                            const { id, descriptions } = p;
 
                             return (
                                 <Card key={id}>

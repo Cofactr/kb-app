@@ -10,8 +10,7 @@ import StatementsTreeItem from "./StatementsTreeItem";
 
 function ProductTreeView({
     data: {
-        _id: { $oid: oid },
-        cpid,
+        id,
         descriptions,
         modified: { $date: modified },
         statements,
@@ -26,16 +25,10 @@ function ProductTreeView({
             defaultEndIcon={<div style={{ width: 24 }} />}
         >
             <StyledTreeItem
-                nodeId="_id"
-                label="_id"
+                nodeId="id"
+                label="id"
                 labelIcon={Fingerprint}
-                labelInfo={oid}
-            />
-            <StyledTreeItem
-                nodeId="cpid"
-                label="cpid"
-                labelIcon={Fingerprint}
-                labelInfo={cpid}
+                labelInfo={id}
             />
             <StyledTreeItem
                 nodeId="modified"

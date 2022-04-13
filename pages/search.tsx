@@ -6,6 +6,7 @@ import {
     Card,
     CardActionArea,
     CardContent,
+    CardMedia,
     Container,
     IconButton,
     LinearProgress,
@@ -104,8 +105,11 @@ function Page() {
                         {!isLoading && !data && <NoResultsMessage />}
                         {data &&
                             data.map((p) => {
-                                const { _id, descriptions } = p;
-                                const id = _id["$oid"];
+                                console.log(p)
+                                const { id, statements: { description, image } } = p;
+
+                                const img = (image || [])[0]?.mainsnak?.datavalue?.value
+                                const desc = description[0]?.mainsnak?.datavalue?.value?.text
 
                                 return (
                                     <Card key={id}>
@@ -113,34 +117,37 @@ function Page() {
                                             component={Link}
                                             noLinkStyle
                                             href={`/products/${id}`}
+                                            sx={{ display: "flex", flexDirection: "column" }}
                                         >
-                                            <CardContent>
-                                                <Stack spacing={0.5}>
-                                                    <Stack
-                                                        direction="row"
-                                                        justifyContent="flex-start"
-                                                        alignItems="center"
-                                                        spacing={1}
-                                                    >
-                                                        <Typography
-                                                            gutterBottom
-                                                            variant="h6"
-                                                            component="div"
+                                            <CardMedia component="img" sx={{ width: 151 }} image={img} />
+                                            <Box>
+                                                <CardContent>
+                                                    <Stack spacing={0.5}>
+                                                        <Stack
+                                                            direction="row"
+                                                            justifyContent="flex-start"
+                                                            alignItems="center"
+                                                            spacing={1}
                                                         >
-                                                            {id}
+                                                            <Typography
+                                                                gutterBottom
+                                                                variant="h6"
+                                                                component="div"
+                                                            >
+                                                                {id}
+                                                            </Typography>
+                                                        </Stack>
+                                                        <Typography
+                                                            variant="body2"
+                                                            color="text.secondary"
+                                                        >
+                                                            {
+                                                                desc
+                                                            }
                                                         </Typography>
                                                     </Stack>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        {
-                                                            descriptions?.en
-                                                                ?.value
-                                                        }
-                                                    </Typography>
-                                                </Stack>
-                                            </CardContent>
+                                                </CardContent>
+                                            </Box>
                                         </CardActionArea>
                                     </Card>
                                 );
