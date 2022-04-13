@@ -18,8 +18,10 @@ import SearchBar from "components/SearchBar";
 import { executeSearch } from "lib/search";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import useAppStore from "store/useAppStore";
 
 function Page() {
+    const { api } = useAppStore();
     const router = useRouter();
     const [data, setData] = useState();
     const [nextPagePath, setNextPagePath] = useState<string>();
@@ -53,7 +55,7 @@ function Page() {
             setData(undefined);
             try {
                 const res = await fetch(
-                    `http://localhost:5000/products/search?q=${queryStringInPath}}`,
+                    `${api}/products?q=${queryStringInPath}&render=false`,
                 );
                 const resJson = await res.json();
                 const {

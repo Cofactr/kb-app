@@ -49,7 +49,7 @@ function Page() {
             setData(undefined);
             try {
                 const res = await fetch(
-                    `${api}/${asPath.replace("/browse/", "")}`,
+                    `${api}/${asPath.replace("/browse/", "")}?render=false`,
                 );
                 const resJson = await res.json();
                 const {
