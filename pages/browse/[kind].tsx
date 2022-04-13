@@ -2,27 +2,30 @@
 import {
     Box,
     ButtonGroup,
-    Card,
-    CardActionArea,
-    CardContent,
     Container,
     IconButton,
     LinearProgress,
     Stack,
     Tab,
     Tabs,
-    Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Link from "components/Link";
 import { NavigateBefore, NavigateNext } from "@mui/icons-material";
 import useAppStore from "store/useAppStore";
+import ProductCard from "components/ProductCard";
+import OrgCard from "components/OrgCard";
 
 const tabs = [
     { label: "Products", slug: "products" },
     { label: "Organizations", slug: "orgs" },
 ];
+
+const cards = {
+    products: ProductCard,
+    orgs: OrgCard,
+}
 
 function Page() {
     const { api } = useAppStore();
@@ -49,7 +52,7 @@ function Page() {
             setData(undefined);
             try {
                 const res = await fetch(
-                    `${api}/${asPath.replace("/browse/", "")}?render=false`,
+                    `${api}/${asPath.replace("/browse/", "")}`,
                 );
                 const resJson = await res.json();
                 const {
@@ -70,6 +73,8 @@ function Page() {
         getData();
     }, [api, asPath, curTabSlug]);
 
+    const EntityCard = cards[curTabSlug];
+
     return (
         <Box sx={{ mb: 4 }}>
             <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -81,7 +86,7 @@ function Page() {
                                 label={label}
                                 sx={{ textTransform: "none" }}
                                 component={Link}
-                                href={`/browse/${slug}`}
+                                href={`/browse/${slug}?render=false`}
                             />
                         );
                     })}
@@ -95,44 +100,7 @@ function Page() {
                         </Box>
                     )}
                     {data &&
-                        data.map((p) => {
-                            const { id, descriptions } = p;
-
-                            return (
-                                <Card key={id}>
-                                    <CardActionArea
-                                        component={Link}
-                                        noLinkStyle
-                                        href={`/products/${id}`}
-                                    >
-                                        <CardContent>
-                                            <Stack spacing={0.5}>
-                                                <Stack
-                                                    direction="row"
-                                                    justifyContent="flex-start"
-                                                    alignItems="center"
-                                                    spacing={1}
-                                                >
-                                                    <Typography
-                                                        gutterBottom
-                                                        variant="h6"
-                                                        component="div"
-                                                    >
-                                                        {id}
-                                                    </Typography>
-                                                </Stack>
-                                                <Typography
-                                                    variant="body2"
-                                                    color="text.secondary"
-                                                >
-                                                    {descriptions?.en?.value}
-                                                </Typography>
-                                            </Stack>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            );
-                        })}
+                            data.map((e) => <EntityCard {...e} />)}
                     {data && (
                         <Box display="flex" justifyContent="center">
                             <ButtonGroup
@@ -144,7 +112,7 @@ function Page() {
                                     color="primary"
                                     aria-label="navigate to previous page"
                                     component={Link}
-                                    href={previousPagePath || "/"}
+                                    href={`${previousPagePath}&render=false` || "/"}
                                     disabled={!previousPagePath}
                                 >
                                     <NavigateBefore />
@@ -153,7 +121,7 @@ function Page() {
                                     color="primary"
                                     aria-label="navigate to next page"
                                     component={Link}
-                                    href={nextPagePath || "/"}
+                                    href={`${nextPagePath}&render=false` || "/"}
                                     disabled={!nextPagePath}
                                 >
                                     <NavigateNext />

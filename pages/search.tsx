@@ -1,20 +1,12 @@
 // @ts-nocheck
-import { NavigateBefore, NavigateNext } from "@mui/icons-material";
 import {
     Box,
-    ButtonGroup,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
     Container,
-    IconButton,
     LinearProgress,
     Stack,
-    Typography,
 } from "@mui/material";
-import Link from "components/Link";
 import NoResultsMessage from "components/NoResultsMesssage";
+import ProductCard from "components/ProductCard";
 import SearchBar from "components/SearchBar";
 import { executeSearch } from "lib/search";
 import { useRouter } from "next/router";
@@ -100,56 +92,7 @@ function Page() {
                         )}
                         {!isLoading && !data && <NoResultsMessage />}
                         {data &&
-                            data.map((p) => {
-                                const { id, statements: { description, image } } = p;
-
-                                const img = (image || [])[0]?.mainsnak?.datavalue?.value
-                                const desc = description[0]?.mainsnak?.datavalue?.value?.text
-
-                                return (
-                                    <Card key={id}>
-                                        <CardActionArea
-                                            component={Link}
-                                            noLinkStyle
-                                            href={`/products/${id}`}
-                                        >
-                                            <Box sx={{ display: "flex" }}>
-                                                <Box sx={{ display: "flex" }} >
-                                                    <CardMedia component="img" sx={{ width: 150, maxHeight: 150 }} image={img} />
-                                                </Box>
-                                                <Box>
-                                                    <CardContent>
-                                                        <Stack spacing={0.5}>
-                                                            <Stack
-                                                                direction="row"
-                                                                justifyContent="flex-start"
-                                                                alignItems="center"
-                                                                spacing={1}
-                                                            >
-                                                                <Typography
-                                                                    gutterBottom
-                                                                    variant="h6"
-                                                                    component="div"
-                                                                >
-                                                                    {id}
-                                                                </Typography>
-                                                            </Stack>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                {
-                                                                    desc
-                                                                }
-                                                            </Typography>
-                                                        </Stack>
-                                                    </CardContent>
-                                                </Box>
-                                            </Box>
-                                        </CardActionArea>
-                                    </Card>
-                                );
-                            })}
+                            data.map((p) => <ProductCard {...p} />)}
                     </Stack>
                 </Container>
             </Box>
