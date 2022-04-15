@@ -46,7 +46,7 @@ function Page() {
             setData(undefined);
             try {
                 const res = await fetch(
-                    `${api}/products?q=${queryStringInPath}&render=false`,
+                    `${api}/products?q=${queryStringInPath}&render=false&external=true`,
                 );
                 const resJson = await res.json();
                 const {
