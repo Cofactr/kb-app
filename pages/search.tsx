@@ -18,8 +18,10 @@ import SearchBar from "components/SearchBar";
 import { executeSearch } from "lib/search";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import useAppStore from "store/useAppStore";
 
 function Page() {
+    const { api } = useAppStore();
     const router = useRouter();
     const [data, setData] = useState();
     const [nextPagePath, setNextPagePath] = useState<string>();
@@ -53,7 +55,7 @@ function Page() {
             setData(undefined);
             try {
                 const res = await fetch(
-                    `http://localhost:5000/products/search?q=${queryStringInPath}}`,
+                    `${api}/products?q=${queryStringInPath}&schema=internal`,
                 );
                 const resJson = await res.json();
                 const {
@@ -72,7 +74,7 @@ function Page() {
         }
 
         getData();
-    }, [queryStringInPath]);
+    }, [api, queryStringInPath]);
 
     return (
         <>
@@ -99,11 +101,10 @@ function Page() {
                                 <LinearProgress />
                             </Box>
                         )}
-                        {!isLoading && !data && <NoResultsMessage />}
+                        {!isLoading && (!data || data.length == 0) && <NoResultsMessage />}
                         {data &&
                             data.map((p) => {
-                                const { _id, descriptions } = p;
-                                const id = _id["$oid"];
+                                const { id, descriptions } = p;
 
                                 return (
                                     <Card key={id}>
