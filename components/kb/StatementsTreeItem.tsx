@@ -16,9 +16,7 @@ function StatementsTreeItem({ data }) {
                     label={propId}
                     labelIcon={propIdToIcon[propId] || Info}
                 >
-                    {statements.map(({ id, mainsnak, rank, references }) => {
-                        const key = id.join("-");
-
+                    {statements.map(({ mainsnak, rank, references }, key) => {
                         return (
                             <MainsnakTreeItem
                                 key={key}

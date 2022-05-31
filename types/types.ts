@@ -70,12 +70,8 @@ type Claims = {
     [key in PropId]: Claim[];
 };
 
-type OID = {
-    $date: string;
-};
-
 type Entity = {
-    _id: OID;
+    id: string;
     modified: Date;
     labels: Labels;
     aliases: Aliases;

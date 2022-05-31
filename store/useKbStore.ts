@@ -22,7 +22,7 @@ const useKbStore = create<KbState>((set) => ({
     kb: new Map(),
     addEntity: (entity: Entity): void =>
         set((state: KbState) => {
-            state.kb.set(entity._id, entity);
+            state.kb.set(entity.id, entity);
         }),
     deleteEntity: (id: OID): void =>
         set((state: KbState) => {
@@ -98,7 +98,6 @@ const useKbStore = create<KbState>((set) => ({
         }),
     removeReference: (entityId?: OID, hash: string): void =>
         set((state: KbState) => {
-            console.log("hello", hash);
             if (!entityId) {
                 return {};
             }
@@ -114,8 +113,6 @@ const useKbStore = create<KbState>((set) => ({
                     }
                 });
             });
-
-            console.log(claims);
         }),
 }));
 

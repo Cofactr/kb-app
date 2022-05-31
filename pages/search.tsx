@@ -1,19 +1,12 @@
 // @ts-nocheck
-import { NavigateBefore, NavigateNext } from "@mui/icons-material";
 import {
     Box,
-    ButtonGroup,
-    Card,
-    CardActionArea,
-    CardContent,
     Container,
-    IconButton,
     LinearProgress,
     Stack,
-    Typography,
 } from "@mui/material";
-import Link from "components/Link";
 import NoResultsMessage from "components/NoResultsMesssage";
+import ProductCard from "components/ProductCard";
 import SearchBar from "components/SearchBar";
 import { executeSearch } from "lib/search";
 import { useRouter } from "next/router";
@@ -24,8 +17,6 @@ function Page() {
     const { api } = useAppStore();
     const router = useRouter();
     const [data, setData] = useState();
-    const [nextPagePath, setNextPagePath] = useState<string>();
-    const [previousPagePath, setPreviousPagePath] = useState<string>();
     const [isLoading, setIsLoading] = useState(true);
 
     const {
@@ -55,7 +46,7 @@ function Page() {
             setData(undefined);
             try {
                 const res = await fetch(
-                    `${api}/products?q=${queryStringInPath}&schema=internal`,
+                    `${api}/products?q=${queryStringInPath}&schema=internal&external=true`,
                 );
                 const resJson = await res.json();
                 const {
@@ -64,8 +55,6 @@ function Page() {
                 } = resJson;
 
                 setData(data);
-                setNextPagePath(next && `/browse${next}`);
-                setPreviousPagePath(previous && `/browse${previous}`);
             } catch (error) {
                 console.error("Handle request error.");
             }
@@ -103,75 +92,7 @@ function Page() {
                         )}
                         {!isLoading && (!data || data.length == 0) && <NoResultsMessage />}
                         {data &&
-                            data.map((p) => {
-                                const { id, descriptions } = p;
-
-                                return (
-                                    <Card key={id}>
-                                        <CardActionArea
-                                            component={Link}
-                                            noLinkStyle
-                                            href={`/products/${id}`}
-                                        >
-                                            <CardContent>
-                                                <Stack spacing={0.5}>
-                                                    <Stack
-                                                        direction="row"
-                                                        justifyContent="flex-start"
-                                                        alignItems="center"
-                                                        spacing={1}
-                                                    >
-                                                        <Typography
-                                                            gutterBottom
-                                                            variant="h6"
-                                                            component="div"
-                                                        >
-                                                            {id}
-                                                        </Typography>
-                                                    </Stack>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        {
-                                                            descriptions?.en
-                                                                ?.value
-                                                        }
-                                                    </Typography>
-                                                </Stack>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                );
-                            })}
-                        {data && (
-                            <Box display="flex" justifyContent="center">
-                                <ButtonGroup
-                                    variant="contained"
-                                    size="small"
-                                    aria-label="pagination controls"
-                                >
-                                    <IconButton
-                                        color="primary"
-                                        aria-label="navigate to previous page"
-                                        component={Link}
-                                        href={previousPagePath || "/"}
-                                        disabled={!previousPagePath}
-                                    >
-                                        <NavigateBefore />
-                                    </IconButton>
-                                    <IconButton
-                                        color="primary"
-                                        aria-label="navigate to next page"
-                                        component={Link}
-                                        href={nextPagePath || "/"}
-                                        disabled={!nextPagePath}
-                                    >
-                                        <NavigateNext />
-                                    </IconButton>
-                                </ButtonGroup>
-                            </Box>
-                        )}
+                            data.map((p) => <ProductCard {...p} />)}
                     </Stack>
                 </Container>
             </Box>

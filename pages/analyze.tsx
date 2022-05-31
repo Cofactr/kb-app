@@ -7,7 +7,7 @@ import useSWR from "swr";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function Page() {
-    const { data, error } = useSWR(`/api/stats`, fetcher);
+    const { data } = useSWR(`/api/stats`, fetcher);
     const { entityCounts, eventCounts, intangibleCounts } = data || {};
 
     return (
@@ -21,17 +21,7 @@ function Page() {
             >
                 <Container maxWidth="sm">
                     <Stack spacing={4}>
-                        {entityCounts && (
-                            <EntityStatsTable entityCounts={entityCounts} />
-                        )}
-                        {intangibleCounts && (
-                            <IntangibleStatsTable
-                                intangibleCounts={intangibleCounts}
-                            />
-                        )}
-                        {eventCounts && (
-                            <EventStatsTable eventCounts={eventCounts} />
-                        )}
+                        TODO: Add key stats
                     </Stack>
                 </Container>
             </Box>

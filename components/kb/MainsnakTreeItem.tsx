@@ -7,7 +7,6 @@ function MainsnakTreeItem({
     data: { datatype, datavalue, hash, property, snaktype },
     children,
 }) {
-    console.log(children);
     return (
         <StyledTreeItem
             nodeId={nodeId}

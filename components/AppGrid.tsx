@@ -19,7 +19,7 @@ const features = [
     {
         name: "Browse",
         description: "Explore the knowledge base",
-        href: "/browse/products",
+        href: "/browse/products?render=false",
         icon: Memory,
     },
     {

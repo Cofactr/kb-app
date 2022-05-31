@@ -23,10 +23,22 @@ function Url({ value }) {
     );
 }
 
+function MonolingualText({ value: { text, language } }) {
+    return (
+        <Typography
+            variant="body2"
+            sx={{ fontWeight: "inherit", flexGrow: 1 }}
+        >
+            {text}
+        </Typography>
+    )
+}
+
 const DataTypeToComponent = {
     external_id: String,
     string: String,
     url: Url,
+    monolingual_text: MonolingualText,
 };
 
 function DataValue({ datatype, data: { type, value } }) {

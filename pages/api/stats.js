@@ -27,6 +27,8 @@ export default async function handler(req, res) {
         .collection("intangibles.properties")
         .countDocuments({});
 
+    console.log("Hello");
+
     const stats = {
         // JSON.parse(JSON.stringify()),
         entityCounts: [

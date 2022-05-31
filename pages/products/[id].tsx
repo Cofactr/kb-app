@@ -11,21 +11,21 @@ function Page() {
     const { addEntity, kb, selectEntity } = useKbStore();
 
     const {
-        query: { oid },
+        query: { id },
     } = useRouter();
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function getData() {
-            if (!oid) {
+            if (!id) {
                 return;
             }
             setIsLoading(true);
 
             setData({});
             try {
-                const res = await fetch(`${api}/products/${oid}`);
+                const res = await fetch(`${api}/products/${id}`);
                 const resJson = await res.json();
                 const { data } = resJson;
 
@@ -38,17 +38,17 @@ function Page() {
         }
 
         getData();
-    }, [api, oid]);
+    }, [api, id]);
 
     useEffect(() => {
         if (!data) {
             return;
         }
         addEntity(data);
-        selectEntity(data._id);
+        selectEntity(data.id);
     }, [addEntity, data, selectEntity]);
 
-    const entity = data?._id && kb.get(data._id);
+    const entity = data?.id && kb.get(data.id);
 
     return (
         <>
