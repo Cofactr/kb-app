@@ -1,3 +1,5 @@
+type Id = string
+
 // Supported languages.
 type LanguageId = "en"; // | "es" | ...
 
@@ -61,7 +63,7 @@ type References = Reference[];
 type Claim = {
     mainsnak: Mainsnak;
     type: Type;
-    id: string;
+    id: Id;
     rank: Rank;
     references: References;
 };
@@ -71,7 +73,7 @@ type Claims = {
 };
 
 type Entity = {
-    id: string;
+    id: Id;
     modified: Date;
     labels: Labels;
     aliases: Aliases;
@@ -102,5 +104,5 @@ export type {
     Claim,
     Claims,
     Entity,
-    OID,
+    Id,
 };
