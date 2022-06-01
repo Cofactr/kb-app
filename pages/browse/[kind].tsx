@@ -50,10 +50,12 @@ function Page() {
             setIsLoading(true);
 
             setData(undefined);
+
+            let path = asPath.replace("/browse/", "")
+            let targetRoute = `${path}${path.includes("?") ? "&" : "?"}schema=internal`
+
             try {
-                const res = await fetch(
-                    `${api}/${asPath.replace("/browse/", "")}`,
-                );
+                const res = await fetch(`${api}/${targetRoute}`);
                 const resJson = await res.json();
                 const {
                     data,
@@ -86,7 +88,7 @@ function Page() {
                                 label={label}
                                 sx={{ textTransform: "none" }}
                                 component={Link}
-                                href={`/browse/${slug}?render=false`}
+                                href={`/browse/${slug}`}
                             />
                         );
                     })}
@@ -100,7 +102,7 @@ function Page() {
                         </Box>
                     )}
                     {data &&
-                            data.map((e) => <EntityCard {...e} />)}
+                            data.map((e) => <EntityCard key={e.id} {...e} />)}
                     {data && (
                         <Box display="flex" justifyContent="center">
                             <ButtonGroup
@@ -112,7 +114,7 @@ function Page() {
                                     color="primary"
                                     aria-label="navigate to previous page"
                                     component={Link}
-                                    href={`${previousPagePath}&render=false` || "/"}
+                                    href={`${previousPagePath}` || "/"}
                                     disabled={!previousPagePath}
                                 >
                                     <NavigateBefore />
@@ -121,7 +123,7 @@ function Page() {
                                     color="primary"
                                     aria-label="navigate to next page"
                                     component={Link}
-                                    href={`${nextPagePath}&render=false` || "/"}
+                                    href={`${nextPagePath}` || "/"}
                                     disabled={!nextPagePath}
                                 >
                                     <NavigateNext />

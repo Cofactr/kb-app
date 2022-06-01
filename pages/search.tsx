@@ -92,7 +92,7 @@ function Page() {
                         )}
                         {!isLoading && (!data || data.length == 0) && <NoResultsMessage />}
                         {data &&
-                            data.map((p) => <ProductCard {...p} />)}
+                            data.map((p) => <ProductCard key={p["id"]} {...p} />)}
                     </Stack>
                 </Container>
             </Box>
